@@ -4,7 +4,7 @@ import {
   HOME_PATH,
   LOGIN_PATH,
   REGISTER_PATH,
-  STUDENT_PROFILE_PATH,
+  MY_PROFILE_PATH,
 } from "../../../constants/routes";
 import Cta from "../../shared/Cta";
 import Logo from "../../../assets/images/logo.svg";
@@ -42,7 +42,7 @@ const PaperNavbar = () => {
                 to={
                   user.role === USER_ROLES.ADMIN
                     ? ADMIN_DASHBOARD_PATH
-                    : STUDENT_PROFILE_PATH
+                    : MY_PROFILE_PATH
                 }
               >
                 <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-full cursor-pointer hover:bg-purple-400">

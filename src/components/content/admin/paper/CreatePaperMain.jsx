@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import FormInput from "../../../shared/fields/FormInput";
 import {
@@ -11,6 +11,8 @@ import paperService from "../../../../services/paper.service";
 import Button from "../../../shared/buttons/Button";
 import PageHeader from "../../../shared/headers/PageHeader";
 import TypeOrSelect from "../../../shared/fields/TypeOrSelect";
+import { useNavigate, useParams } from "react-router-dom";
+import { ADMIN_PAPER_MANAGE_PATH } from "../../../../constants/routes";
 
 const initialState = {
   exam: "",
@@ -34,7 +36,49 @@ const CreatePaperMain = () => {
   const [errors, setErrors] = useState(initialState);
   const [loading, setLoading] = useState(false);
 
-  const { createPaper } = paperService();
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const { createPaper, updatePaper, getPaperById } = paperService();
+
+  useEffect(() => {
+    const fetchPaper = async () => {
+      if (!id) return;
+
+      setLoading(true);
+
+      try {
+        const res = await getPaperById(id);
+        console.log("res", res.data);
+        setForm((prev) => ({
+          ...prev,
+          exam: res.data.exam,
+          medium: res.data.medium,
+          type: res.data.type,
+          fee: res.data.fee,
+          year: res.data.year,
+          longName: res.data.longName,
+          stats: {
+            noOfStuds: res.data.stats.noOfStuds,
+            a: res.data.stats.a,
+            b: res.data.stats.b,
+            c: res.data.stats.c,
+            s: res.data.stats.s,
+            f: res.data.stats.f,
+          },
+        }));
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.message ||
+          "An unexpected error occurred. Please try again.";
+        console.log(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPaper();
+  }, [id]);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -131,8 +175,15 @@ const CreatePaperMain = () => {
     setLoading(true);
 
     try {
-      await createPaper(form);
-      toast.success("Paper successfully created");
+      if (!id) {
+        await createPaper(form);
+        toast.success("Paper successfully created");
+      } else {
+        await updatePaper(id, form);
+        toast.success("Paper successfully updated");
+        navigate(ADMIN_PAPER_MANAGE_PATH);
+      }
+
       handleReset();
     } catch (error) {
       const errorMessage =

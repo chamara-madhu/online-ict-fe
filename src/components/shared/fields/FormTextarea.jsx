@@ -25,7 +25,7 @@ const FormTextarea = ({
         }`}
         {...rest}
       />
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 };

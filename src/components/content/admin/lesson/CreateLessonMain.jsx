@@ -1,10 +1,12 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import FormInput from "../../../shared/fields/FormInput";
 import { EXAM_OPTIONS } from "../../../../constants/base";
 import lessonService from "../../../../services/lesson.service";
 import TypeOrSelect from "../../../shared/fields/TypeOrSelect";
 import Button from "../../../shared/buttons/Button";
+import { useNavigate, useParams } from "react-router-dom";
+import { ADMIN_LESSON_MANAGE_PATH } from "../../../../constants/routes";
 
 const initialState = {
   exam: "",
@@ -16,8 +18,38 @@ const CreateLessonMain = () => {
   const [form, setForm] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { createLesson } = lessonService();
+  const { createLesson, updateLesson, getLessonById } = lessonService();
+
+  useEffect(() => {
+    const fetchLesson = async () => {
+      if (!id) return;
+
+      setLoading(true);
+
+      try {
+        const res = await getLessonById(id);
+        console.log("res", res.data);
+        setForm((prev) => ({
+          ...prev,
+          exam: res.data.exam,
+          no: res.data.no,
+          lesson: res.data.lesson,
+        }));
+      } catch (error) {
+        const errorMessage =
+          error?.response?.data?.message ||
+          "An unexpected error occurred. Please try again.";
+        console.log(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLesson();
+  }, [id]);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -76,9 +108,15 @@ const CreateLessonMain = () => {
     setLoading(true);
 
     try {
-      await createLesson(form);
-      toast.success("Lesson successfully created");
-      handleReset();
+      if (!id) {
+        await createLesson(form);
+        toast.success("Lesson successfully created");
+        handleReset();
+      } else {
+        await updateLesson(id, form);
+        toast.success("Lesson successfully updated");
+        navigate(ADMIN_LESSON_MANAGE_PATH);
+      }
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||

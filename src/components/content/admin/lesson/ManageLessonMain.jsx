@@ -3,10 +3,13 @@ import { toast } from "react-toastify";
 import { Edit2, Trash } from "feather-icons-react";
 import PageHeader from "../../../shared/headers/PageHeader";
 import lessonService from "../../../../services/lesson.service";
+import { useNavigate } from "react-router-dom";
+import { ADMIN_LESSON_CREATE_PATH } from "../../../../constants/routes";
 
 const ManageLessonMain = () => {
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const { getAllLessons, deleteLesson } = lessonService();
 
@@ -74,7 +77,16 @@ const ManageLessonMain = () => {
                   <td>{lesson.lesson}</td>
                   <td>
                     <div className="flex gap-2">
-                      <div className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700">
+                      <div
+                        className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
+                        onClick={() =>
+                          navigate(
+                            `${ADMIN_LESSON_CREATE_PATH.replace("/:id", "")}/${
+                              lesson._id
+                            }`
+                          )
+                        }
+                      >
                         <Edit2 size={16} />
                       </div>
                       <div

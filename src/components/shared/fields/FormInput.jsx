@@ -28,7 +28,7 @@ const FormInput = ({
         }`}
         {...rest}
       />
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
       {info && <p className="text-xs text-gray-400">{info}</p>}
     </div>
   );

@@ -3,12 +3,8 @@ import classNames from "classnames";
 import { Plus, Edit2, File, Grid } from "feather-icons-react";
 import {
   ADMIN_DASHBOARD_PATH,
-  ADMIN_LESSON_CREATE_PATH,
-  ADMIN_LESSON_MANAGE_PATH,
-  ADMIN_PAPER_CREATE_PATH,
-  ADMIN_PAPER_MANAGE_PATH,
-  ADMIN_QUESTION_CREATE_PATH,
-  ADMIN_QUESTION_MANAGE_PATH,
+  MY_PURCHASING_HISTORY_PATH,
+  MY_RESULTS_PATH,
 } from "../../../constants/routes";
 
 // Define menu items dynamically
@@ -20,59 +16,20 @@ const menuItems = [
     isParent: true,
   },
   {
-    label: "Papers",
-    icon: File,
+    path: MY_PURCHASING_HISTORY_PATH,
+    label: "Purchasing History",
+    icon: Grid,
     isParent: true,
   },
   {
-    path: ADMIN_PAPER_CREATE_PATH,
-    label: "Create paper",
-    icon: Plus,
-    isParent: false,
-  },
-  {
-    path: ADMIN_PAPER_MANAGE_PATH,
-    label: "Manage paper",
-    icon: Edit2,
-    isParent: false,
-  },
-  {
-    label: "Lessons",
-    icon: File,
+    path: MY_RESULTS_PATH,
+    label: "Results",
+    icon: Grid,
     isParent: true,
-  },
-  {
-    path: ADMIN_LESSON_CREATE_PATH,
-    label: "Create lesson",
-    icon: Plus,
-    isParent: false,
-  },
-  {
-    path: ADMIN_LESSON_MANAGE_PATH,
-    label: "Manage lesson",
-    icon: Edit2,
-    isParent: false,
-  },
-  {
-    label: "Questions",
-    icon: File,
-    isParent: true,
-  },
-  {
-    path: ADMIN_QUESTION_CREATE_PATH,
-    label: "Create question",
-    icon: Plus,
-    isParent: false,
-  },
-  {
-    path: ADMIN_QUESTION_MANAGE_PATH,
-    label: "Manage question",
-    icon: Edit2,
-    isParent: false,
   },
 ];
 
-const AdminSidebar = () => {
+const ProfileSidebar = () => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -86,13 +43,12 @@ const AdminSidebar = () => {
         const IconComponent = item.icon;
 
         return item.isParent ? (
-          <div
-            key={index}
-            className="flex text-sm font-semibold bg-purple-300 items-center gap-3 px-4 h-[40px]"
-          >
-            <IconComponent size={16} />
-            {item.label}
-          </div>
+          <Link to={item.path || "#"} key={index}>
+            <div className="flex text-sm font-semibold bg-purple-100 items-center gap-3 px-4 h-[40px]">
+              <IconComponent size={16} />
+              {item.label}
+            </div>
+          </Link>
         ) : (
           <Link to={item.path || "#"} key={index}>
             <div
@@ -115,4 +71,4 @@ const AdminSidebar = () => {
   );
 };
 
-export default AdminSidebar;
+export default ProfileSidebar;

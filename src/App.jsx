@@ -15,8 +15,11 @@ import {
   MCQ_EXAM_PATH,
   MCQ_PAPER_PATH,
   PAYMENT_SUCCESS_PATH,
+  MY_PROFILE_PATH,
+  MY_PURCHASING_HISTORY_PATH,
   // PAPER_PATH,
   REGISTER_PATH,
+  MY_RESULTS_PATH,
 } from "./constants/routes";
 // import Home from "./pages/Home";
 import Paper from "./pages/Paper";
@@ -25,9 +28,8 @@ import ManagePaper from "./pages/admin/paper/ManagePaper";
 import CreateLesson from "./pages/admin/lesson/CreateLesson";
 import ManageLesson from "./pages/admin/lesson/ManageLesson";
 import CreateQuestion from "./pages/admin/question/CreateQuestion";
-// import MCQPractice from "./pages/MCQPractice";
-import MCQAllPractice from "./pages/MCQAllPractice";
-import MCQPracticeStart from "./pages/MCQPracticeStart";
+import MCQAll from "./pages/MCQAll";
+import MCQStart from "./pages/MCQStart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
@@ -37,6 +39,9 @@ import Dashboard from "./pages/admin/Dashboard";
 import Mark from "./pages/students/Mark";
 import BuyPaper from "./pages/students/BuyPaper";
 import PaymentSuccess from "./pages/students/PaymentSuccess";
+import Profile from "./pages/students/Profile";
+import PurchasingHistory from "./pages/students/PurchasingHistory";
+import MyResults from "./pages/students/MyResults";
 
 function App() {
   return (
@@ -44,8 +49,10 @@ function App() {
       <Routes>
         <Route path={LOGIN_PATH} exact element={<Login />} />
         <Route path={REGISTER_PATH} exact element={<SignUp />} />
-        <Route path={HOME_PATH} exact element={<MCQAllPractice />} />
-        <Route path={MCQ_PAPER_PATH} exact element={<MCQPracticeStart />} />
+
+        <Route path={HOME_PATH} exact element={<MCQAll />} />
+        <Route path={MCQ_PAPER_PATH} exact element={<MCQStart />} />
+
         <Route path={MCQ_EXAM_PATH} exact element={<Paper />} />
         <Route path={MCQ_EXAM_MARK_PATH} exact element={<Mark />} />
         <Route path={MCQ_BUY_PAPER_PATH} exact element={<BuyPaper />} />
@@ -74,6 +81,14 @@ function App() {
           exact
           element={<ManageQuestion />}
         />
+
+        <Route path={MY_PROFILE_PATH} exact element={<Profile />} />
+        <Route
+          path={MY_PURCHASING_HISTORY_PATH}
+          exact
+          element={<PurchasingHistory />}
+        />
+        <Route path={MY_RESULTS_PATH} exact element={<MyResults />} />
       </Routes>
     </BrowserRouter>
   );

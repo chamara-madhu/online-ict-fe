@@ -3,11 +3,15 @@ import { toast } from "react-toastify";
 import { Edit2, Trash } from "feather-icons-react";
 import paperService from "../../../../services/paper.service";
 import PageHeader from "../../../shared/headers/PageHeader";
+import { useNavigate } from "react-router-dom";
+import { ADMIN_PAPER_CREATE_PATH } from "../../../../constants/routes";
 
 const ManagePaperMain = () => {
   const [papers, setPapers] = useState([]);
   const [loading, setLoading] = useState(false);
   const { getAllPapers, deletePaper } = paperService();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -86,7 +90,16 @@ const ManagePaperMain = () => {
                   <td>{paper.status ? "Active" : "Inactive"}</td>
                   <td>
                     <div className="flex gap-2">
-                      <div className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700">
+                      <div
+                        className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
+                        onClick={() =>
+                          navigate(
+                            `${ADMIN_PAPER_CREATE_PATH.replace("/:id", "")}/${
+                              paper._id
+                            }`
+                          )
+                        }
+                      >
                         <Edit2 size={16} />
                       </div>
                       <div

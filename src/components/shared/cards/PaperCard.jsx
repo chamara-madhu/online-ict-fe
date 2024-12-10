@@ -1,32 +1,41 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { MCQ_ALL_PATH } from "../../../constants/routes";
-import { Button } from "evergreen-ui";
+import classNames from "classnames";
+import { FEES, MEDIUMS } from "../../../constants/base";
 
-const PaperCard = ({ _id, exam, medium, type, year }) => {
+const PaperCard = ({ _id, exam, medium, fee, year }) => {
   return (
     <Link to={`${MCQ_ALL_PATH}/${_id}`}>
-      <div className="flex flex-col w-full gap-4 p-5 border border-purple-400 rounded-xl">
-        {/* <img
-          src="https://studyhub.themewant.com/wp-content/uploads/2024/03/06.svg"
-          className="w-10 h-10 bg-cover"
-          alt="category"
-          decoding="async"
-        /> */}
+      <div className="relative flex flex-col w-full gap-4 p-5 border border-purple-400 rounded-xl">
         <h3 className="text-lg font-bold">
-          G.C.E {exam ? "Advanced Level" : "Ordinary Level"} - {year} ({medium})
+          G.C.E {exam ? "Advanced Level" : "Ordinary Level"}
         </h3>
-        {/* <h3 className="text-lg font-bold">{medium}</h3>
-          <p className="text-sm text-gray-600">{type}</p> */}
-        {/* <p className="text-sm text-gray-600">{year}</p> */}
-        <Button
-          className="h-8 px-6 bg-purple-500 border-0 rounded-full w-fit hover:bg-purple-700"
-          appearance="primary"
-          size="large"
-          // onClick={handleSubmit(handleCreateLesson)}
-        >
-          Buy
-        </Button>
+        <div className="flex justify-between">
+          <div
+            className={classNames(
+              "px-3 py-1 text-sm rounded-lg border border-purple-300 right-1 top-1"
+            )}
+          >
+            {year}
+          </div>
+          <div
+            className={classNames(
+              "px-3 py-1 text-sm rounded-lg right-1 top-1",
+              fee === FEES.FREE ? "bg-green-200" : "bg-red-200"
+            )}
+          >
+            {fee}
+          </div>
+          <div
+            className={classNames(
+              "px-3 py-1 text-sm rounded-lg border border-purple-300 right-1 top-1",
+              medium === MEDIUMS.ENGLISH ? "bg-blue-200" : "bg-orange-200"
+            )}
+          >
+            {medium}
+          </div>
+        </div>
       </div>
     </Link>
   );

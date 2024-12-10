@@ -12,18 +12,18 @@ import markService from "../../../services/mark.service";
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const MCQPracticeStartMain = () => {
-  const [paper, setPaper] = useState(null);
-  const [highestMarkStudents, setHighestMarkStudents] = useState(null);
+const MCQStartMain = () => {
+  const [paper, setPaper] = useState([]);
+  const [highestMarkStudents, setHighestMarkStudents] = useState([]);
 
   const { paperId } = useParams();
 
   const { getHighestMarkStudentsByPaperId } = markService();
-  const { getPaper } = paperService();
+  const { getPaperById } = paperService();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getPaper(paperId);
+      const res = await getPaperById(paperId);
       setPaper(res.data);
     };
 
@@ -34,7 +34,7 @@ const MCQPracticeStartMain = () => {
     const fetchData = async () => {
       const res = await getHighestMarkStudentsByPaperId(paperId);
       console.log({ res });
-      setHighestMarkStudents(res?.data || null);
+      setHighestMarkStudents(res?.data || []);
     };
 
     if (paperId) {
@@ -67,17 +67,18 @@ const MCQPracticeStartMain = () => {
             <p>50 questions</p>
           </div>
         </div>
-        <div className="flex flex-col w-full p-5 rounded-lg bg-purple-50 h-fit">
-          <h2 className="mb-4 text-lg font-semibold text-purple-700">
-            Leaderboard
-          </h2>
-          <div className="flex flex-col gap-3">
-            {highestMarkStudents &&
-              highestMarkStudents.map((student, i) => (
+        {highestMarkStudents?.length > 0 && (
+          <div className="flex flex-col w-full p-5 rounded-lg bg-purple-50 h-fit">
+            <h2 className="mb-4 text-lg font-semibold text-purple-700">
+              Leaderboard
+            </h2>
+            <div className="flex flex-col gap-3">
+              {highestMarkStudents.map((student, i) => (
                 <StudentRankCard key={student?._id} no={i + 1} {...student} />
               ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="flex flex-col w-[60%] gap-7">
         <h1 className="text-2xl font-semibold">Instructions</h1>
@@ -100,21 +101,6 @@ const MCQPracticeStartMain = () => {
             </p>
           </li>
         </ol>
-
-        {/* <div className="flex flex-col gap-3">
-            <p className="text-sm font-medium">Select exam type:</p>
-            <div className="flex gap-3">
-              <span className="flex items-center justify-center h-10 px-5 text-white bg-purple-500 rounded-full cursor-pointer hover:bg-purple-500 hover:text-white">
-                Real Exam
-              </span>
-              <span className="flex items-center justify-center h-10 px-5 text-gray-600 bg-blue-300 rounded-full cursor-pointer hover:bg-purple-500 hover:text-white">
-                Instant Feedback
-              </span>
-              <span className="flex items-center justify-center h-10 px-5 text-gray-600 bg-blue-300 rounded-full cursor-pointer hover:bg-purple-500 hover:text-white">
-                Own Style
-              </span>
-            </div>
-          </div> */}
 
         {paper?.fee === FEES.FREE ? (
           <Link
@@ -262,4 +248,4 @@ const MCQPracticeStartMain = () => {
   );
 };
 
-export default MCQPracticeStartMain;
+export default MCQStartMain;

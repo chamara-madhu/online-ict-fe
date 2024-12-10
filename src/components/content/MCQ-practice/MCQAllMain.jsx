@@ -16,7 +16,7 @@ const initialFilters = {
   fee: [],
 };
 
-const MCQMain = () => {
+const MCQAllMain = () => {
   const [filters, setFilters] = useState(initialFilters);
   const [papers, setPapers] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc"); // 'desc' for High to Low, 'asc' for Low to High
@@ -70,6 +70,18 @@ const MCQMain = () => {
       });
     });
   }, [sortOrder]);
+
+  // Apply filters
+  const filteredPapers = papers.filter((paper) => {
+    const matchesExam =
+      filters.exam.length === 0 || filters.exam.includes(paper.exam);
+    const matchesMedium =
+      filters.medium.length === 0 || filters.medium.includes(paper.medium);
+    const matchesFee =
+      filters.fee.length === 0 || filters.fee.includes(paper.fee);
+
+    return matchesExam && matchesMedium && matchesFee;
+  });
 
   return (
     <div className="flex w-full gap-7">
@@ -204,12 +216,14 @@ const MCQMain = () => {
           </div>
         </div>
         <div className="grid w-full grid-cols-1 gap-4 mt-5 md:grid-cols-4">
-          {papers?.length > 0 &&
-            papers?.map((paper, index) => <PaperCard key={index} {...paper} />)}
+          {filteredPapers?.length > 0 &&
+            filteredPapers?.map((paper, index) => (
+              <PaperCard key={index} {...paper} />
+            ))}
         </div>
       </div>
     </div>
   );
 };
 
-export default MCQMain;
+export default MCQAllMain;

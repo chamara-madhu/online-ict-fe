@@ -26,14 +26,14 @@ const initialState = {
   image: "",
   restOfQuestion: "",
   options: [],
-  answer: [5],
+  answer: "",
   difficulty: "",
 };
 
 const CreateQuestionMain = () => {
   const [papers, setPapers] = useState([]);
   const [lessons, setLessons] = useState([]);
-  const [answerOptions, setAnswerOptions] = useState([]);
+  // const [answerOptions, setAnswerOptions] = useState([]);
   const [form, setForm] = useState(initialState);
   const [errors, setErrors] = useState(initialState);
   const [loading, setLoading] = useState(false);
@@ -79,8 +79,8 @@ const CreateQuestionMain = () => {
       try {
         if (!form.paperId) return;
 
-        const response = await getAllLessonsByPaperId(form.paperId);
-        const mappedLessons = response?.map((lesson) => ({
+        const res = await getAllLessonsByPaperId(form.paperId);
+        const mappedLessons = res?.data?.map((lesson) => ({
           value: lesson._id,
           label: `${lesson.no}. ${lesson.lesson}`,
         }));
@@ -132,19 +132,30 @@ const CreateQuestionMain = () => {
     }
 
     // Validate Type
-    if (form.answerOptions.length === 0) {
+    if (form.options.length === 0) {
       options = "options is required";
     }
 
     // Validate Type
     if (form.answer.length === 0) {
-      answer = "answer is required";
+      answer = "Correct answer is required";
     }
 
     // Validate Type
     if (!form.difficulty) {
       difficulty = "Difficulty is required";
     }
+
+    console.log({
+      type,
+      no,
+      paperId,
+      lessonId,
+      question,
+      options,
+      answer,
+      difficulty,
+    });
 
     // Check if any error exists
     if (
@@ -177,27 +188,41 @@ const CreateQuestionMain = () => {
   };
 
   const appendOption = () => {
-    setAnswerOptions([...answerOptions, ""]);
+    setForm((prevForm) => ({
+      ...prevForm,
+      options: [...prevForm.options, ""],
+    }));
   };
 
   const updateOption = (index, value) => {
-    const updatedOptions = [...answerOptions];
+    const updatedOptions = [...form.options];
     updatedOptions[index] = value;
-    setAnswerOptions(updatedOptions);
+    // setAnswerOptions(updatedOptions);
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      options: updatedOptions,
+    }));
   };
 
   const removeOption = (index) => {
-    setAnswerOptions(answerOptions.filter((_, i) => i !== index));
+    const updatedOptions = [...form.options];
+    const filtered = updatedOptions.filter((_, i) => i !== index);
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      options: filtered,
+    }));
   };
 
   const handleCreateQuestion = async (e) => {
     e.preventDefault();
 
-    // if (!isValid()) return;
+    if (!isValid()) return;
     setLoading(true);
 
     try {
-      await createQuestion({ ...form, options: answerOptions });
+      await createQuestion({ ...form });
       toast.success("Question successfully created");
       handleReset();
     } catch (error) {
@@ -213,7 +238,7 @@ const CreateQuestionMain = () => {
   const handleReset = () => {
     setForm(initialState);
     setErrors(initialState);
-    setAnswerOptions([]);
+    // setAnswerOptions([]);
   };
 
   return (
@@ -230,15 +255,6 @@ const CreateQuestionMain = () => {
           error={errors.type}
           showRequiredLabel
         />
-        <FormInput
-          name="no"
-          label="Question No"
-          value={form.no}
-          placeholder="Eg. 1"
-          onChange={handleChange}
-          error={errors.no}
-          isRequired
-        />
         <TypeOrSelect
           isClearable
           label="Paper"
@@ -251,6 +267,15 @@ const CreateQuestionMain = () => {
           placeholder="-- Select --"
           error={errors.paperId}
           showRequiredLabel
+        />
+        <FormInput
+          name="no"
+          label="Question No"
+          value={form.no}
+          placeholder="Eg. 1"
+          onChange={handleChange}
+          error={errors.no}
+          isRequired
         />
         <TypeOrSelect
           isClearable
@@ -309,8 +334,8 @@ const CreateQuestionMain = () => {
           </div>
 
           <div className="flex flex-col w-full gap-2">
-            {answerOptions?.length > 0 ? (
-              answerOptions.map((option, index) => (
+            {form?.options?.length > 0 ? (
+              form?.options.map((option, index) => (
                 <div className="flex flex-col w-full gap-1" key={index}>
                   <div className="flex items-center w-full gap-2">
                     <input
@@ -351,6 +376,13 @@ const CreateQuestionMain = () => {
             <FeatherIcon icon="plus" size="16" /> Add
           </button>
         </div>
+        <FormInput
+          name="answer"
+          label="Correct answer"
+          value={form.answer}
+          onChange={handleChange}
+          error={errors.answer}
+        />
 
         <div className="flex gap-2">
           <Button

@@ -16,12 +16,12 @@ const BuyPaperMain = () => {
   const [cartItems, setCartItems] = useState([]);
 
   const { paperId } = useParams();
-  const { getPaper } = paperService();
+  const { getPaperById } = paperService();
   const { onlinePayment } = paymentService();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await getPaper(paperId);
+      const res = await getPaperById(paperId);
       const obj = {
         id: res.data._id,
         name: res.data.longName,

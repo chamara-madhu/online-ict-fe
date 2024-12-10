@@ -8,7 +8,7 @@ const getAllPapers = async (query = "") => {
   return await axios.get(`/papers?${query}`);
 };
 
-const getPaper = async (id) => {
+const getPaperById = async (id) => {
   return await axios.get(`/papers/${id}`);
 };
 
@@ -27,7 +27,7 @@ const markPaper = async (id, answers) => {
 export default {
   createPaper,
   getAllPapers,
-  getPaper,
+  getPaperById,
   updatePaper,
   deletePaper,
   markPaper,
