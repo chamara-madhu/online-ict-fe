@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../../../shared/headers/PageHeader";
-import markService from "../../../../services/mark.service";
-import moment from "moment";
-import Medal from "../../../shared/Medal";
+import userService from "../../../../services/user.service";
+import { USER_ROLES } from "../../../../constants/base";
 
-const MyResultsMain = () => {
-  const [results, setResults] = useState([]);
+const AllUsersMain = () => {
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { getAllMyResults } = markService();
+
+  const { getAllUsers } = userService();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLessons = async () => {
       setLoading(true);
       try {
-        const res = await getAllMyResults();
-        setResults(res.data);
+        const res = await getAllUsers();
+        console.log("res", res.data);
+        setUsers(res.data);
       } catch (error) {
         const errorMessage =
           error?.response?.data?.message ||
@@ -25,20 +26,20 @@ const MyResultsMain = () => {
       }
     };
 
-    fetchData();
+    fetchLessons();
   }, []);
 
   return (
     <>
-      <PageHeader title="My Results" />
+      <PageHeader title="All Users" />
+
       <div className="overflow-x-auto">
         <table className="w-full border table-fixed">
           <thead className="bg-purple-100 h-14">
             <tr className="text-sm text-left">
-              <th className="w-[200px]">Timestamp</th>
-              <th className="">Exam</th>
-              <th className="w-[100px]">Marks</th>
-              <th className="w-[100px]">medal</th>
+              <th className="">Name</th>
+              <th className="w-[300px]">email</th>
+              <th className="w-[100px]">role</th>
             </tr>
           </thead>
           <tbody>
@@ -48,28 +49,20 @@ const MyResultsMain = () => {
                   Loading...
                 </td>
               </tr>
-            ) : results.length > 0 ? (
-              results.map((mark, index) => (
+            ) : users?.length > 0 ? (
+              users.map((lesson, index) => (
                 <tr key={index} className="text-sm">
+                  <td>{lesson.name}</td>
+                  <td>{lesson.email}</td>
                   <td>
-                    {moment
-                      .utc(mark.createdAt)
-                      .local()
-                      .format("YYYY-MM-DD HH:MM A")}
-                  </td>
-                  <td>{mark.paper.longName}</td>
-                  <td>{mark.marks}</td>
-                  <td>
-                    {mark?.medal && (
-                      <Medal medal={mark.medal} className="w-12 h-12" />
-                    )}
+                    {lesson.role === USER_ROLES.ADMIN ? "Admin" : "Student"}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td colSpan="7" className="py-4 text-center">
-                  No results found.
+                  No users found.
                 </td>
               </tr>
             )}
@@ -80,4 +73,4 @@ const MyResultsMain = () => {
   );
 };
 
-export default MyResultsMain;
+export default AllUsersMain;

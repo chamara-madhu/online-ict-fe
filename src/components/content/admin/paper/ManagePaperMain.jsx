@@ -83,7 +83,7 @@ const ManagePaperMain = () => {
                   <td>{paper?.longName}</td>
                   <td>{paper.fee}</td>
                   <td>
-                    {paper?.stats && (
+                    {paper?.stats?.noOfStuds && (
                       <p>{`No of students: ${paper?.stats?.noOfStuds}, A: ${paper?.stats?.a}, B: ${paper?.stats?.b}, S: ${paper?.stats?.s}, F: ${paper?.stats?.f}`}</p>
                     )}
                   </td>

@@ -3,10 +3,14 @@ import { toast } from "react-toastify";
 import { Edit2, Trash } from "feather-icons-react";
 import PageHeader from "../../../shared/headers/PageHeader";
 import questionService from "../../../../services/question.service";
+import { ADMIN_QUESTION_CREATE_PATH } from "../../../../constants/routes";
+import { useNavigate } from "react-router-dom";
 
 const ManageQuestionMain = () => {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const { getAllQuestions, deleteQuestion } = questionService();
 
@@ -94,7 +98,17 @@ const ManageQuestionMain = () => {
                   <td>{question.difficulty}</td>
                   <td>
                     <div className="flex gap-2">
-                      <div className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700">
+                      <div
+                        className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
+                        onClick={() =>
+                          navigate(
+                            `${ADMIN_QUESTION_CREATE_PATH.replace(
+                              "/:id",
+                              ""
+                            )}/${question._id}`
+                          )
+                        }
+                      >
                         <Edit2 size={16} />
                       </div>
                       <div

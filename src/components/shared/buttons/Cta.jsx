@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
-import { REGISTER_PATH } from "../../constants/routes";
+import { REGISTER_PATH } from "../../../constants/routes";
 
 const Cta = ({
   label,

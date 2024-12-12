@@ -138,7 +138,8 @@ const MCQStartMain = () => {
                   , the following statistics represent the actual results.
                 </p>
                 <p className="mb-4 text-sm text-gray-700">
-                  <b>{paper?.stats?.noOfStuds}</b> students face the exam.
+                  <b>{paper?.stats?.noOfStuds?.toLocaleString()}</b> students
+                  face the exam.
                 </p>
                 <div className="flex gap-7">
                   <div className="flex w-1/2">
@@ -151,7 +152,7 @@ const MCQStartMain = () => {
                           <th className="px-4 py-2 text-left border border-gray-300">
                             No. of Students
                           </th>
-                          <th className="px-4 py-2 text-left border border-gray-300">
+                          <th className="px-4 py-2 text-right border border-gray-300">
                             %
                           </th>
                         </tr>
@@ -165,7 +166,7 @@ const MCQStartMain = () => {
                                 {key?.toUpperCase()}
                               </td>
                               <td className="px-4 border border-gray-300">
-                                {value}
+                                {value?.toLocaleString()}
                               </td>
                               <td className="px-4 text-right border border-gray-300">
                                 {(

@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { Plus, Edit2, File, Grid } from "feather-icons-react";
+import { Grid, PieChart, DollarSign } from "feather-icons-react";
 import {
-  ADMIN_DASHBOARD_PATH,
+  MY_PROFILE_PATH,
   MY_PURCHASING_HISTORY_PATH,
   MY_RESULTS_PATH,
 } from "../../../constants/routes";
@@ -10,21 +10,21 @@ import {
 // Define menu items dynamically
 const menuItems = [
   {
-    path: ADMIN_DASHBOARD_PATH,
+    path: MY_PROFILE_PATH,
     label: "Dashboard",
-    icon: Grid,
-    isParent: true,
-  },
-  {
-    path: MY_PURCHASING_HISTORY_PATH,
-    label: "Purchasing History",
     icon: Grid,
     isParent: true,
   },
   {
     path: MY_RESULTS_PATH,
     label: "Results",
-    icon: Grid,
+    icon: PieChart,
+    isParent: true,
+  },
+  {
+    path: MY_PURCHASING_HISTORY_PATH,
+    label: "Purchasing History",
+    icon: DollarSign,
     isParent: true,
   },
 ];
@@ -42,14 +42,7 @@ const ProfileSidebar = () => {
         const isActive = item.path && pathname === item.path;
         const IconComponent = item.icon;
 
-        return item.isParent ? (
-          <Link to={item.path || "#"} key={index}>
-            <div className="flex text-sm font-semibold bg-purple-100 items-center gap-3 px-4 h-[40px]">
-              <IconComponent size={16} />
-              {item.label}
-            </div>
-          </Link>
-        ) : (
+        return (
           <Link to={item.path || "#"} key={index}>
             <div
               className={classNames(

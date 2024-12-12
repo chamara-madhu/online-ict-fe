@@ -43,7 +43,7 @@ const CreatePaperMain = () => {
 
   useEffect(() => {
     const fetchPaper = async () => {
-      if (!id) return;
+      if (!id || id === ":id") return;
 
       setLoading(true);
 

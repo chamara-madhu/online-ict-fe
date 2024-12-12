@@ -35,8 +35,8 @@ const PurchasingHistoryMain = () => {
         <table className="w-full border table-fixed">
           <thead className="bg-purple-100 h-14">
             <tr className="text-sm text-left">
-              <th className="w-[100px]">Timestamp</th>
-              <th className="w-[100px]">Paper</th>
+              <th className="w-[200px]">Timestamp</th>
+              <th className="">Paper</th>
               <th className="w-[100px]">Amount</th>
             </tr>
           </thead>
@@ -54,7 +54,7 @@ const PurchasingHistoryMain = () => {
                     {moment
                       .utc(payment.createdAt)
                       .local()
-                      .format("YYYY-MM_DD HH:MM A")}
+                      .format("YYYY-MM-DD HH:MM A")}
                   </td>
                   <td>{payment.paper.longName}</td>
                   <td>

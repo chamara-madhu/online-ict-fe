@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Trash } from "feather-icons-react";
+import { useEffect, useState } from "react";
+// import { Trash } from "feather-icons-react";
 import Button from "../../../shared/buttons/Button";
 import { useParams } from "react-router-dom";
 import paperService from "../../../../services/paper.service";
@@ -14,8 +14,10 @@ import paymentService from "../../../../services/payment.service";
 
 const BuyPaperMain = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [loadingOnline, setLoadingOnline] = useState(false);
 
   const { paperId } = useParams();
+
   const { getPaperById } = paperService();
   const { onlinePayment } = paymentService();
 
@@ -32,42 +34,40 @@ const BuyPaperMain = () => {
     fetchData();
   }, []);
 
-  const handleRemove = (id) => {
-    const filtered = cartItems.filter((el) => el.id !== id);
-    setCartItems(filtered);
-  };
+  // const handleRemove = (id) => {
+  //   const filtered = cartItems.filter((el) => el.id !== id);
+  //   setCartItems(filtered);
+  // };
 
   const handleOnlinePayment = async () => {
-    // setLoadingOnline(true);
-    const stripe = await loadStripe(pay.VITE_STRIPE_PUBLISHABLE_KEY);
+    setLoadingOnline(true);
 
-    onlinePayment({ paperId, amount: 200 })
-      .then((res) => {
-        stripe.redirectToCheckout({
-          sessionId: res.data.sessionId,
-        });
-        // setLoadingOnline(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        // setLoadingOnline(false);
+    try {
+      const stripe = await loadStripe(pay.VITE_STRIPE_PUBLISHABLE_KEY);
+
+      const res = await onlinePayment({ paperId, amount: 200 });
+
+      await stripe.redirectToCheckout({
+        sessionId: res.data.sessionId,
       });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoadingOnline(false);
+    }
   };
 
   return (
     <div className="flex gap-10">
-      {/* Shopping Cart */}
       <div className="flex flex-col gap-6 w-[70%]">
         <h2 className="text-xl font-semibold">Shopping Cart</h2>
         <div>
-          {/* Table Headings */}
           <div className="flex items-center justify-between py-2 font-medium border-b">
             <div className="flex-1">Paper</div>
             <div className="text-right w-28">Price</div>
             <div className="w-24 text-center">Qty</div>
-            <div className="w-10 text-center"></div>
+            {/* <div className="w-10 text-center"></div> */}
           </div>
-          {/* Cart Items */}
           <div>
             {cartItems.map((item) => (
               <div
@@ -79,21 +79,20 @@ const BuyPaperMain = () => {
                   {CURRENCY}. {PRICE_PER_PAPER.toFixed(2)}
                 </div>
                 <div className="w-24 text-center">1</div>
-                <div className="w-10 text-center">
+                {/* <div className="w-10 text-center">
                   <button
                     onClick={() => handleRemove(item.id)}
                     className="text-red-500"
                   >
                     <Trash size={16} />
                   </button>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* Order Summary */}
       <div className="flex flex-col gap-7 w-[30%] bg-purple-50 p-5 rounded-lg">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Order Summary</h2>
@@ -105,7 +104,7 @@ const BuyPaperMain = () => {
           <div className="flex items-center justify-between h-10">
             <p>Sub Total</p>
             <p>
-              {CURRENCY} {cartItems?.length * PRICE_PER_PAPER}
+              {CURRENCY} {(cartItems?.length * PRICE_PER_PAPER).toFixed(2)}
             </p>
           </div>
           <div className="flex items-center justify-between h-10">
@@ -117,14 +116,20 @@ const BuyPaperMain = () => {
             </p>
             <p className="font-medium text-purple-500">
               - {CURRENCY}{" "}
-              {cartItems?.length * PRICE_PER_PAPER * PROMOTION_RATE}
+              {(cartItems?.length * PRICE_PER_PAPER * PROMOTION_RATE).toFixed(
+                2
+              )}
             </p>
           </div>
           <div className="flex items-center justify-between h-10 mt-3 border-t">
             <p className="font-medium">Total Due</p>
             <p className="font-semibold">
               {CURRENCY}{" "}
-              {cartItems?.length * PRICE_PER_PAPER * (1 - PROMOTION_RATE)}
+              {(
+                cartItems?.length *
+                PRICE_PER_PAPER *
+                (1 - PROMOTION_RATE)
+              ).toFixed(2)}
             </p>
           </div>
         </div>
@@ -132,6 +137,7 @@ const BuyPaperMain = () => {
           label="Checkout"
           className="w-full"
           size="large"
+          isLoading={loadingOnline}
           handleBtn={handleOnlinePayment}
         />
       </div>

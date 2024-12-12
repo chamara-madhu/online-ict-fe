@@ -6,7 +6,7 @@ import {
   REGISTER_PATH,
   MY_PROFILE_PATH,
 } from "../../../constants/routes";
-import Cta from "../../shared/Cta";
+import Cta from "../../shared/buttons/Cta";
 import Logo from "../../../assets/images/logo.svg";
 import { USER_ROLES } from "../../../constants/base";
 

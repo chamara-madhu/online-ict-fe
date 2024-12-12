@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import PageHeader from "../../../shared/headers/PageHeader";
-import markService from "../../../../services/mark.service";
-import moment from "moment";
-import Medal from "../../../shared/Medal";
+import paymentService from "../../../../services/payment.service";
+import { CURRENCY } from "../../../../constants/base";
 
-const MyResultsMain = () => {
-  const [results, setResults] = useState([]);
+const AllPaymentsMain = () => {
+  const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { getAllMyResults } = markService();
+
+  const { getAllPayments } = paymentService();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await getAllMyResults();
-        setResults(res.data);
+        const res = await getAllPayments();
+        setPayments(res.data);
       } catch (error) {
         const errorMessage =
           error?.response?.data?.message ||
@@ -30,15 +30,16 @@ const MyResultsMain = () => {
 
   return (
     <>
-      <PageHeader title="My Results" />
+      <PageHeader title="All Payments" />
+
       <div className="overflow-x-auto">
         <table className="w-full border table-fixed">
           <thead className="bg-purple-100 h-14">
             <tr className="text-sm text-left">
-              <th className="w-[200px]">Timestamp</th>
-              <th className="">Exam</th>
-              <th className="w-[100px]">Marks</th>
-              <th className="w-[100px]">medal</th>
+              <th className="w-[400px]">Name</th>
+              <th className="w-[300px]">Email</th>
+              <th>Paper</th>
+              <th className="w-[100px]">Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -48,28 +49,21 @@ const MyResultsMain = () => {
                   Loading...
                 </td>
               </tr>
-            ) : results.length > 0 ? (
-              results.map((mark, index) => (
+            ) : payments?.length > 0 ? (
+              payments.map((payment, index) => (
                 <tr key={index} className="text-sm">
+                  <td>{payment?.user?.name}</td>
+                  <td>{payment?.user?.email}</td>
+                  <td>{payment?.paper?.longName}</td>
                   <td>
-                    {moment
-                      .utc(mark.createdAt)
-                      .local()
-                      .format("YYYY-MM-DD HH:MM A")}
-                  </td>
-                  <td>{mark.paper.longName}</td>
-                  <td>{mark.marks}</td>
-                  <td>
-                    {mark?.medal && (
-                      <Medal medal={mark.medal} className="w-12 h-12" />
-                    )}
+                    {CURRENCY} {payment?.amount}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
                 <td colSpan="7" className="py-4 text-center">
-                  No results found.
+                  No payments found.
                 </td>
               </tr>
             )}
@@ -80,4 +74,4 @@ const MyResultsMain = () => {
   );
 };
 
-export default MyResultsMain;
+export default AllPaymentsMain;

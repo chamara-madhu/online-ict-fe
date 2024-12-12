@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PROFILE_HISTORY_PATH } from "../../../../constants/routes";
+import { MY_PURCHASING_HISTORY_PATH } from "../../../../constants/routes";
 import paymentService from "../../../../services/payment.service";
 import PreLoading from "../../../shared/loading/PreLoading";
 
@@ -16,7 +16,7 @@ const PaymentSuccessMain = () => {
     addPaymentRecord({ paperId })
       .then(() => {
         setPreLoading(false);
-        navigate(PROFILE_HISTORY_PATH);
+        navigate(MY_PURCHASING_HISTORY_PATH);
         toast.success("Successful payment.");
       })
       .catch(() => {

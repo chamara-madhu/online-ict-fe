@@ -7,6 +7,7 @@ import TypeOrSelect from "../../../shared/fields/TypeOrSelect";
 import Button from "../../../shared/buttons/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { ADMIN_LESSON_MANAGE_PATH } from "../../../../constants/routes";
+import PageHeader from "../../../shared/headers/PageHeader";
 
 const initialState = {
   exam: "",
@@ -25,7 +26,7 @@ const CreateLessonMain = () => {
 
   useEffect(() => {
     const fetchLesson = async () => {
-      if (!id) return;
+      if (!id || id === ":id") return;
 
       setLoading(true);
 
@@ -133,48 +134,52 @@ const CreateLessonMain = () => {
   };
 
   return (
-    <div>
-      <form className="flex w-[50%] flex-col gap-6">
-        <TypeOrSelect
-          isClearable
-          label="Exam"
-          name="exam"
-          onChange={handleChange}
-          options={EXAM_OPTIONS}
-          value={form.exam}
-          placeholder="Eg. A/L"
-          error={errors.exam}
-          showRequiredLabel
-        />
-        <FormInput
-          type="number"
-          name="no"
-          value={form.no}
-          label="Lesson number"
-          onChange={handleChange}
-          placeholder="Eg. 1"
-          isRequired
-          error={errors.no}
-        />
-        <FormInput
-          name="lesson"
-          label="Lesson"
-          value={form.lesson}
-          onChange={handleChange}
-          placeholder="Eg. Concept of ICT"
-          isRequired
-          error={errors.lesson}
-        />
-        <div className="flex gap-2">
-          <Button
-            label="Submit"
-            isLoading={loading}
-            handleBtn={handleCreateLesson}
+    <>
+      <PageHeader title="Create lesson" />
+
+      <div>
+        <form className="flex w-[50%] flex-col gap-6">
+          <TypeOrSelect
+            isClearable
+            label="Exam"
+            name="exam"
+            onChange={handleChange}
+            options={EXAM_OPTIONS}
+            value={form.exam}
+            placeholder="Eg. A/L"
+            error={errors.exam}
+            showRequiredLabel
           />
-          <Button label="Reset" color="secondary" handleBtn={handleReset} />
-        </div>
-      </form>
-    </div>
+          <FormInput
+            type="number"
+            name="no"
+            value={form.no}
+            label="Lesson number"
+            onChange={handleChange}
+            placeholder="Eg. 1"
+            isRequired
+            error={errors.no}
+          />
+          <FormInput
+            name="lesson"
+            label="Lesson"
+            value={form.lesson}
+            onChange={handleChange}
+            placeholder="Eg. Concept of ICT"
+            isRequired
+            error={errors.lesson}
+          />
+          <div className="flex gap-2">
+            <Button
+              label="Submit"
+              isLoading={loading}
+              handleBtn={handleCreateLesson}
+            />
+            <Button label="Reset" color="secondary" handleBtn={handleReset} />
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

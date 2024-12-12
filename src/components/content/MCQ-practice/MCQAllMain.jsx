@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import paperService from "../../../services/paper.service";
-// import { MCQ_ALL_PATH } from "../../../constants/routes";
 import CheckedIcon from "../../../assets/icons/check.svg";
 import UnCheckedIcon from "../../../assets/icons/un-check.svg";
 import {
@@ -19,7 +18,8 @@ const initialFilters = {
 const MCQAllMain = () => {
   const [filters, setFilters] = useState(initialFilters);
   const [papers, setPapers] = useState([]);
-  const [sortOrder, setSortOrder] = useState("desc"); // 'desc' for High to Low, 'asc' for Low to High
+  const [searchText, setSearchText] = useState("");
+  const [sortOrder, setSortOrder] = useState("desc");
   const { getAllPapers } = paperService();
 
   // Handle checkbox change for multiple selection
@@ -79,8 +79,11 @@ const MCQAllMain = () => {
       filters.medium.length === 0 || filters.medium.includes(paper.medium);
     const matchesFee =
       filters.fee.length === 0 || filters.fee.includes(paper.fee);
+    const matchesSearch =
+      searchText === "" ||
+      paper.longName.toLowerCase().includes(searchText.toLowerCase()); // Search by name
 
-    return matchesExam && matchesMedium && matchesFee;
+    return matchesExam && matchesMedium && matchesFee && matchesSearch;
   });
 
   return (
@@ -187,8 +190,15 @@ const MCQAllMain = () => {
       <div className="flex flex-col" style={{ width: "calc(100% - 280px)" }}>
         <div className="flex items-end justify-between">
           <span className="text-sm text-gray-500">
-            {papers?.length || 0} papers
+            {filteredPapers?.length || 0} papers
           </span>
+          <input
+            type="text"
+            placeholder="Search papers..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            className="px-5 py-2 border border-gray-300 w-[400px] rounded-full focus:outline-none focus:ring-1 focus:ring-purple-500"
+          />
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-700">
               Sort by (year):

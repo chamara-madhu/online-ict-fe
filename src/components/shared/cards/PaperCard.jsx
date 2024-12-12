@@ -49,4 +49,5 @@ PaperCard.propTypes = {
   medium: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   year: PropTypes.string.isRequired,
+  fee: PropTypes.string.isRequired,
 };

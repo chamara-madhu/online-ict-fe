@@ -4,6 +4,7 @@ import paperApi from "./paper.api";
 import questionApi from "./question.api";
 import markApi from "./mark.api";
 import paymentApi from "./payment.api";
+import userApi from "./user.api";
 
 export default {
   AuthApi: authApi,
@@ -12,4 +13,5 @@ export default {
   QuestionApi: questionApi,
   MarkApi: markApi,
   PaymentApi: paymentApi,
+  UserApi: userApi,
 };

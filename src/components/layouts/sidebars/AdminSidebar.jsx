@@ -1,7 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { Plus, Edit2, File, Grid } from "feather-icons-react";
 import {
+  Plus,
+  Edit2,
+  File,
+  Grid,
+  BookOpen,
+  User,
+  CreditCard,
+  HelpCircle,
+} from "feather-icons-react";
+import {
+  ADMIN_ALL_PAYMENTS_PATH,
+  ADMIN_ALL_USERS_PATH,
   ADMIN_DASHBOARD_PATH,
   ADMIN_LESSON_CREATE_PATH,
   ADMIN_LESSON_MANAGE_PATH,
@@ -38,7 +49,7 @@ const menuItems = [
   },
   {
     label: "Lessons",
-    icon: File,
+    icon: BookOpen,
     isParent: true,
   },
   {
@@ -55,7 +66,7 @@ const menuItems = [
   },
   {
     label: "Questions",
-    icon: File,
+    icon: HelpCircle,
     isParent: true,
   },
   {
@@ -68,6 +79,23 @@ const menuItems = [
     path: ADMIN_QUESTION_MANAGE_PATH,
     label: "Manage question",
     icon: Edit2,
+    isParent: false,
+  },
+  {
+    label: "Reports",
+    icon: HelpCircle,
+    isParent: true,
+  },
+  {
+    path: ADMIN_ALL_USERS_PATH,
+    label: "All users",
+    icon: User,
+    isParent: false,
+  },
+  {
+    path: ADMIN_ALL_PAYMENTS_PATH,
+    label: "All payments",
+    icon: CreditCard,
     isParent: false,
   },
 ];
@@ -85,20 +113,13 @@ const AdminSidebar = () => {
         const isActive = item.path && pathname === item.path;
         const IconComponent = item.icon;
 
-        return item.isParent ? (
-          <div
-            key={index}
-            className="flex text-sm font-semibold bg-purple-300 items-center gap-3 px-4 h-[40px]"
-          >
-            <IconComponent size={16} />
-            {item.label}
-          </div>
-        ) : (
+        return (
           <Link to={item.path || "#"} key={index}>
             <div
               className={classNames(
                 "flex text-sm items-center gap-2",
                 item.isParent ? "px-4" : "pl-10",
+                !item.path ? "bg-purple-300" : "",
                 "h-[40px]",
                 isActive
                   ? "bg-purple-100 border-r-4 border-purple-700 font-medium"
