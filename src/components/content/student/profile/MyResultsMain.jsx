@@ -42,6 +42,7 @@ const MyResultsMain = () => {
             <tr className="text-sm text-left">
               <th className="w-[200px]">Timestamp</th>
               <th className="">Exam</th>
+              <th className="w-[100px]">Fee</th>
               <th className="w-[100px]">Marks</th>
               <th className="w-[100px]">medal</th>
               <th className="w-[145px]">Action</th>
@@ -63,7 +64,8 @@ const MyResultsMain = () => {
                       .local()
                       .format("YYYY-MM-DD HH:MM A")}
                   </td>
-                  <td>{mark.paper.longName}</td>
+                  <td>{mark?.paper?.longName}</td>
+                  <td>{mark?.paper?.fee}</td>
                   <td>{mark.marks}</td>
                   <td>
                     {mark?.medal ? (

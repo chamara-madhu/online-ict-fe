@@ -24,6 +24,10 @@ const markPaper = async (id, answers) => {
   return await axios.post(`/papers/marks/${id}`, { answers });
 };
 
+const checkEligibility = async (id) => {
+  return await axios.get(`/papers/eligibility/${id}`);
+};
+
 export default {
   createPaper,
   getAllPapers,
@@ -31,4 +35,5 @@ export default {
   updatePaper,
   deletePaper,
   markPaper,
+  checkEligibility,
 };

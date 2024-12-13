@@ -15,13 +15,14 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 const MCQStartMain = () => {
   const [paper, setPaper] = useState([]);
   const [highestMarkStudents, setHighestMarkStudents] = useState([]);
+  const [eligibility, setEligibility] = useState(null);
 
   const user = JSON.parse(localStorage.getItem("user_data") || "{}");
 
   const { paperId } = useParams();
 
   const { getHighestMarkStudentsByPaperId } = markService();
-  const { getPaperById } = paperService();
+  const { getPaperById, checkEligibility } = paperService();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,8 +35,16 @@ const MCQStartMain = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const res = await checkEligibility(paperId);
+      setEligibility(res.data);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
       const res = await getHighestMarkStudentsByPaperId(paperId);
-      console.log({ res });
       setHighestMarkStudents(res?.data || []);
     };
 
@@ -103,15 +112,16 @@ const MCQStartMain = () => {
             </p>
           </li>
         </ol>
-
-        {paper?.fee === FEES.FREE ? (
+        {(paper?.fee === FEES.FREE && eligibility?.attemptsRemaining > 0) ||
+        (paper?.fee === FEES.PAID && eligibility?.attemptsRemaining > 0) ? (
           <Link
             to={`${MCQ_ALL_PATH}/exam/${paper?._id}`}
             className="flex items-center justify-center h-12 px-10 text-white bg-purple-500 rounded-full w-fit hover:bg-purple-700"
           >
             Start Now
           </Link>
-        ) : (
+        ) : null}{" "}
+        {paper?.fee === FEES.PAID && eligibility?.isNeedToBuy && (
           <Link
             to={`${MCQ_BUY_PAPER_PATH.replace(":paperId", "")}${paper?._id}`}
             className="flex items-center justify-center h-12 px-10 text-white bg-purple-500 rounded-full w-fit hover:bg-purple-700"
@@ -119,8 +129,14 @@ const MCQStartMain = () => {
             Buy Now
           </Link>
         )}
+        {eligibility?.attemptsRemaining ? (
+          <p className="text-sm font-medium text-purple-500">
+            {eligibility?.attemptsRemaining > 0
+              ? `${eligibility?.attemptsRemaining} attempt(s) remaining`
+              : "All attempts has been used."}
+          </p>
+        ) : null}
         <hr />
-
         <div className="flex flex-col gap-7">
           {paper?.stats?.noOfStuds && (
             <>

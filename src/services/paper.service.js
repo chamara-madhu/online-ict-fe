@@ -7,6 +7,7 @@ const paperService = () => ({
   updatePaper: (id, data) => ApiIndex.PaperApi.updatePaper(id, data),
   deletePaper: (id) => ApiIndex.PaperApi.deletePaper(id),
   markPaper: (id, answers) => ApiIndex.PaperApi.markPaper(id, answers),
+  checkEligibility: (id) => ApiIndex.PaperApi.checkEligibility(id),
 });
 
 export default paperService;
