@@ -1,20 +1,20 @@
 import { Link, useLocation } from "react-router-dom";
 import classNames from "classnames";
-import { Grid, PieChart, DollarSign } from "feather-icons-react";
+import { PieChart, DollarSign } from "feather-icons-react";
 import {
-  MY_PROFILE_PATH,
+  // MY_PROFILE_PATH,
   MY_PURCHASING_HISTORY_PATH,
   MY_RESULTS_PATH,
 } from "../../../constants/routes";
 
 // Define menu items dynamically
 const menuItems = [
-  {
-    path: MY_PROFILE_PATH,
-    label: "Dashboard",
-    icon: Grid,
-    isParent: true,
-  },
+  // {
+  //   path: MY_PROFILE_PATH,
+  //   label: "Dashboard",
+  //   icon: Grid,
+  //   isParent: true,
+  // },
   {
     path: MY_RESULTS_PATH,
     label: "Results",

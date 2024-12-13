@@ -62,7 +62,7 @@ const ManagePaperMain = () => {
               <th className="w-[200px]">Long name</th>
               <th className="w-[100px]">Fee</th>
               <th>Statistics</th>
-              <th className="w-[100px]">Status</th>
+              {/* <th className="w-[100px]">Status</th> */}
               <th className="w-[110px]">Action</th>
             </tr>
           </thead>
@@ -87,7 +87,7 @@ const ManagePaperMain = () => {
                       <p>{`No of students: ${paper?.stats?.noOfStuds}, A: ${paper?.stats?.a}, B: ${paper?.stats?.b}, C: ${paper?.stats?.c}, S: ${paper?.stats?.s}, F: ${paper?.stats?.f}`}</p>
                     )}
                   </td>
-                  <td>{paper.status ? "Active" : "Inactive"}</td>
+                  {/* <td>{paper.status ? "Active" : "Inactive"}</td> */}
                   <td>
                     <div className="flex gap-2">
                       <div

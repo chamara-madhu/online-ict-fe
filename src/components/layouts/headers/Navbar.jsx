@@ -5,8 +5,8 @@ import {
   // PRICING_PATH,
   LOGIN_PATH,
   REGISTER_PATH,
-  MY_PROFILE_PATH,
   ADMIN_DASHBOARD_PATH,
+  MY_RESULTS_PATH,
 } from "../../../constants/routes";
 import Cta from "../../shared/buttons/Cta";
 import Logo from "../../../assets/images/logo.svg";
@@ -68,7 +68,7 @@ const Navbar = () => {
                 to={
                   user.role === USER_ROLES.ADMIN
                     ? ADMIN_DASHBOARD_PATH
-                    : MY_PROFILE_PATH
+                    : MY_RESULTS_PATH
                 }
               >
                 <div className="flex items-center gap-3">
