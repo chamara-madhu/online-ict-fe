@@ -41,13 +41,12 @@ const BuyPaperMain = () => {
 
   const handleOnlinePayment = async (e) => {
     e.preventDefault();
-    alert(pay.VITE_STRIPE_PUBLISHABLE_KEY);
     setLoadingOnline(true);
 
     try {
       const stripe = await loadStripe(pay.VITE_STRIPE_PUBLISHABLE_KEY);
       if (!stripe) {
-        alert("Stripe failed to load.");
+        console.log("Stripe failed to load.");
         return;
       }
 
