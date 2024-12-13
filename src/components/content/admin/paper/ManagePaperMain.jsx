@@ -69,7 +69,7 @@ const ManagePaperMain = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="9" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -93,11 +93,7 @@ const ManagePaperMain = () => {
                       <div
                         className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
                         onClick={() =>
-                          navigate(
-                            `${ADMIN_PAPER_CREATE_PATH.replace("/:id", "")}/${
-                              paper._id
-                            }`
-                          )
+                          navigate(`${ADMIN_PAPER_CREATE_PATH}/${paper._id}`)
                         }
                       >
                         <Edit2 size={16} />
@@ -114,7 +110,7 @@ const ManagePaperMain = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="9" className="py-4 text-center">
                   No papers found.
                 </td>
               </tr>

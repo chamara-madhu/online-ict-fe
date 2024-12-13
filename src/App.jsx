@@ -26,6 +26,9 @@ import {
   MY_RESULTS_PATH,
   ADMIN_ALL_USERS_PATH,
   ADMIN_ALL_PAYMENTS_PATH,
+  ADMIN_PAPER_EDIT_PATH,
+  ADMIN_LESSON_EDIT_PATH,
+  ADMIN_QUESTION_EDIT_PATH,
 } from "./constants/routes";
 import Paper from "./pages/students/Paper";
 import CreatePaper from "./pages/admin/paper/CreatePaper";
@@ -127,6 +130,10 @@ function App() {
           />
         </Route>
 
+        <Route exact path={ADMIN_PAPER_EDIT_PATH} element={<AdminRoute />}>
+          <Route path={ADMIN_PAPER_EDIT_PATH} exact element={<CreatePaper />} />
+        </Route>
+
         <Route exact path={ADMIN_PAPER_MANAGE_PATH} element={<AdminRoute />}>
           <Route
             path={ADMIN_PAPER_MANAGE_PATH}
@@ -143,6 +150,14 @@ function App() {
           />
         </Route>
 
+        <Route exact path={ADMIN_LESSON_EDIT_PATH} element={<AdminRoute />}>
+          <Route
+            path={ADMIN_LESSON_EDIT_PATH}
+            exact
+            element={<CreateLesson />}
+          />
+        </Route>
+
         <Route exact path={ADMIN_LESSON_MANAGE_PATH} element={<AdminRoute />}>
           <Route
             path={ADMIN_LESSON_MANAGE_PATH}
@@ -154,6 +169,14 @@ function App() {
         <Route exact path={ADMIN_QUESTION_CREATE_PATH} element={<AdminRoute />}>
           <Route
             path={ADMIN_QUESTION_CREATE_PATH}
+            exact
+            element={<CreateQuestion />}
+          />
+        </Route>
+
+        <Route exact path={ADMIN_QUESTION_EDIT_PATH} element={<AdminRoute />}>
+          <Route
+            path={ADMIN_QUESTION_EDIT_PATH}
             exact
             element={<CreateQuestion />}
           />

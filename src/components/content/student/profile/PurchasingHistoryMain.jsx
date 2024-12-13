@@ -43,7 +43,7 @@ const PurchasingHistoryMain = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="3" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -64,7 +64,7 @@ const PurchasingHistoryMain = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="3" className="py-4 text-center">
                   No history found.
                 </td>
               </tr>

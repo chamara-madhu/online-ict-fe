@@ -45,7 +45,7 @@ const AllPaymentsMain = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="4" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -62,7 +62,7 @@ const AllPaymentsMain = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="4" className="py-4 text-center">
                   No payments found.
                 </td>
               </tr>

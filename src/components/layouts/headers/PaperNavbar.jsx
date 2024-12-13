@@ -45,8 +45,17 @@ const PaperNavbar = () => {
                     : MY_PROFILE_PATH
                 }
               >
-                <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-full cursor-pointer hover:bg-purple-400">
-                  {user.name[0]}
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-10 h-10 bg-purple-200 rounded-full cursor-pointer hover:bg-purple-400">
+                    {user.name[0]}
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xs">{user?.name}</p>
+                    <p className="text-sm font-medium">
+                      Role:{" "}
+                      {user?.role === USER_ROLES.ADMIN ? "Admin" : "Student"}
+                    </p>
+                  </div>
                 </div>
               </Link>
             </div>

@@ -16,6 +16,8 @@ const MCQStartMain = () => {
   const [paper, setPaper] = useState([]);
   const [highestMarkStudents, setHighestMarkStudents] = useState([]);
 
+  const user = JSON.parse(localStorage.getItem("user_data") || "{}");
+
   const { paperId } = useParams();
 
   const { getHighestMarkStudentsByPaperId } = markService();
@@ -47,7 +49,7 @@ const MCQStartMain = () => {
     <div className="flex gap-10">
       <div className="flex flex-col w-[40%] gap-7 h-fit">
         <div className="flex flex-col w-full gap-10 p-5 rounded-lg bg-purple-50 h-fit">
-          <p>Hey Neluwe Liyanage Chamara Madhushanka Gunathilaka</p>
+          {user?.name ? <p>Hey {user.name}</p> : null}
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl font-semibold">Welcome to</h1>
             <h1 className="text-3xl font-semibold">
@@ -64,7 +66,7 @@ const MCQStartMain = () => {
 
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium">No. of questions</p>
-            <p>50 questions</p>
+            <p>5 questions</p>
           </div>
         </div>
         {highestMarkStudents?.length > 0 && (

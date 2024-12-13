@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import markService from "../../../../services/mark.service";
 import { useParams } from "react-router-dom";
-import classNames from "classnames";
+import html2PDF from "jspdf-html2canvas";
 import Button from "../../../shared/buttons/Button";
 import Medal from "../../../shared/Medal";
 
 const MarkMain = () => {
   const [marks, setMarks] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { markId } = useParams();
 
@@ -25,9 +26,28 @@ const MarkMain = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleDownload = () => {
+    setLoading(true);
+
+    const node = document.getElementById("my-node");
+
+    html2PDF(node, {
+      jsPDF: {
+        format: "a6",
+      },
+      imageType: "image/jpeg",
+      output: `./${marks?.paper?.longName}.pdf`,
+    });
+
+    setLoading(false);
+  };
+
   return (
     <div className="flex px-20 pt-10 pb-20">
-      <div className="flex flex-col w-full max-w-screen-xl gap-10 mx-auto">
+      <div
+        className="flex flex-col w-full max-w-screen-xl gap-10 mx-auto"
+        id="my-node"
+      >
         {/* Header Section */}
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-3xl font-bold text-purple-600">
@@ -69,10 +89,8 @@ const MarkMain = () => {
           <Button
             label="Download"
             className="px-6 py-3 text-white bg-purple-600 rounded-lg hover:bg-purple-700"
-            onClick={() => {
-              // Add your navigation logic here
-              console.log("Navigate to test page");
-            }}
+            handleBtn={handleDownload}
+            isLoading={loading}
           />
         </div>
       </div>

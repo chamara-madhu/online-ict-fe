@@ -102,10 +102,7 @@ const ManageQuestionMain = () => {
                         className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
                         onClick={() =>
                           navigate(
-                            `${ADMIN_QUESTION_CREATE_PATH.replace(
-                              "/:id",
-                              ""
-                            )}/${question._id}`
+                            `${ADMIN_QUESTION_CREATE_PATH}/${question._id}`
                           )
                         }
                       >

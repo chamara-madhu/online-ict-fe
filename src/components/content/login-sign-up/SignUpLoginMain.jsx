@@ -4,7 +4,7 @@ import Button from "../../shared/buttons/Button";
 import { isValidEmail } from "../../../utils/general";
 import authService from "../../../services/auth.service";
 import FormInput from "../../shared/fields/FormInput";
-import { ADMIN_DASHBOARD_PATH, HOME_PATH } from "../../../constants/routes";
+import { ADMIN_DASHBOARD_PATH } from "../../../constants/routes";
 import Logo from "../../../assets/images/logo.svg";
 
 const SignUpLoginMain = ({ isSignUp }) => {
@@ -17,6 +17,7 @@ const SignUpLoginMain = ({ isSignUp }) => {
     emailErr: "",
     passwordErr: "",
   });
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const emailRef = useRef(null);
@@ -93,6 +94,7 @@ const SignUpLoginMain = ({ isSignUp }) => {
         }
       } catch (err) {
         console.log(err);
+        setError(err?.response?.data?.message);
       } finally {
         setLoading(false);
       }
@@ -232,6 +234,7 @@ const SignUpLoginMain = ({ isSignUp }) => {
               onChange={handleChange}
               error={form.passwordErr}
             />
+            <p className="text-sm text-red-400">{error}</p>
             <div>
               <Button
                 label={showSignUpView ? "Sign up" : "Login"}

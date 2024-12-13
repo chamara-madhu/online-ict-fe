@@ -26,13 +26,12 @@ const CreateLessonMain = () => {
 
   useEffect(() => {
     const fetchLesson = async () => {
-      if (!id || id === ":id") return;
+      if (!id) return;
 
       setLoading(true);
 
       try {
         const res = await getLessonById(id);
-        console.log("res", res.data);
         setForm((prev) => ({
           ...prev,
           exam: res.data.exam,
@@ -135,7 +134,7 @@ const CreateLessonMain = () => {
 
   return (
     <>
-      <PageHeader title="Create lesson" />
+      <PageHeader title={id ? "Edit lesson" : "Create lesson"} />
 
       <div>
         <form className="flex w-[50%] flex-col gap-6">
@@ -171,7 +170,7 @@ const CreateLessonMain = () => {
           />
           <div className="flex gap-2">
             <Button
-              label="Submit"
+              label={id ? "Save" : "Submit"}
               isLoading={loading}
               handleBtn={handleCreateLesson}
             />

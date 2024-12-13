@@ -3,10 +3,15 @@ import PageHeader from "../../../shared/headers/PageHeader";
 import markService from "../../../../services/mark.service";
 import moment from "moment";
 import Medal from "../../../shared/Medal";
+import Button from "../../../shared/buttons/Button";
+import { useNavigate } from "react-router-dom";
+import { MCQ_EXAM_MARK_PATH } from "../../../../constants/routes";
 
 const MyResultsMain = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
   const { getAllMyResults } = markService();
 
   useEffect(() => {
@@ -39,12 +44,13 @@ const MyResultsMain = () => {
               <th className="">Exam</th>
               <th className="w-[100px]">Marks</th>
               <th className="w-[100px]">medal</th>
+              <th className="w-[145px]">Action</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="5" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -60,15 +66,32 @@ const MyResultsMain = () => {
                   <td>{mark.paper.longName}</td>
                   <td>{mark.marks}</td>
                   <td>
-                    {mark?.medal && (
+                    {mark?.medal ? (
                       <Medal medal={mark.medal} className="w-12 h-12" />
+                    ) : (
+                      "-"
                     )}
+                  </td>
+                  <td>
+                    <Button
+                      label="Download"
+                      className="px-6 py-3 text-white bg-purple-600 rounded-lg hover:bg-purple-700"
+                      size="small"
+                      handleBtn={() =>
+                        window.open(
+                          `${MCQ_EXAM_MARK_PATH.replace("/:markId", "")}/${
+                            mark?._id
+                          }`,
+                          "_blank" // Open in a new tab
+                        )
+                      }
+                    />
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="5" className="py-4 text-center">
                   No results found.
                 </td>
               </tr>

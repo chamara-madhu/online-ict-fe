@@ -14,7 +14,6 @@ const AllUsersMain = () => {
       setLoading(true);
       try {
         const res = await getAllUsers();
-        console.log("res", res.data);
         setUsers(res.data);
       } catch (error) {
         const errorMessage =
@@ -45,7 +44,7 @@ const AllUsersMain = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="3" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -61,7 +60,7 @@ const AllUsersMain = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="3" className="py-4 text-center">
                   No users found.
                 </td>
               </tr>

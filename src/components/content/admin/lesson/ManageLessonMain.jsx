@@ -65,7 +65,7 @@ const ManageLessonMain = () => {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="4" className="py-4 text-center">
                   Loading...
                 </td>
               </tr>
@@ -80,11 +80,7 @@ const ManageLessonMain = () => {
                       <div
                         className="flex items-center justify-center w-8 h-8 text-white bg-purple-500 rounded-lg cursor-pointer hover:bg-purple-700"
                         onClick={() =>
-                          navigate(
-                            `${ADMIN_LESSON_CREATE_PATH.replace("/:id", "")}/${
-                              lesson._id
-                            }`
-                          )
+                          navigate(`${ADMIN_LESSON_CREATE_PATH}/${lesson._id}`)
                         }
                       >
                         <Edit2 size={16} />
@@ -101,7 +97,7 @@ const ManageLessonMain = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 text-center">
+                <td colSpan="4" className="py-4 text-center">
                   No lessons found.
                 </td>
               </tr>

@@ -46,7 +46,7 @@ const CreateQuestionMain = () => {
 
   useEffect(() => {
     const fetchQuestion = async () => {
-      if (!id || id === ":id") return;
+      if (!id) return;
 
       setLoading(true);
 
@@ -259,11 +259,11 @@ const CreateQuestionMain = () => {
 
     try {
       if (!id) {
-        await createQuestion(form);
+        await createQuestion({ ...form, answer: [form.answer] });
         toast.success("Question successfully created");
         handleReset();
       } else {
-        await updateQuestion(id, form);
+        await updateQuestion(id, { ...form, answer: [form.answer] });
         toast.success("Question successfully updated");
         navigate(ADMIN_QUESTION_MANAGE_PATH);
       }
@@ -285,7 +285,7 @@ const CreateQuestionMain = () => {
 
   return (
     <>
-      <PageHeader title="Create question" />
+      <PageHeader title={id ? "Edit question" : "Create question"} />
 
       <div>
         <form className="flex w-[50%] flex-col gap-6">
@@ -431,7 +431,7 @@ const CreateQuestionMain = () => {
 
           <div className="flex gap-2">
             <Button
-              label="Submit"
+              label={id ? "Save" : "Submit"}
               isLoading={loading}
               handleBtn={handleCreateQuestion}
             />

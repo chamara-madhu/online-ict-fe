@@ -43,7 +43,7 @@ const CreatePaperMain = () => {
 
   useEffect(() => {
     const fetchPaper = async () => {
-      if (!id || id === ":id") return;
+      if (!id) return;
 
       setLoading(true);
 
@@ -202,7 +202,7 @@ const CreatePaperMain = () => {
 
   return (
     <>
-      <PageHeader title="Create paper" />
+      <PageHeader title={id ? "Edit paper" : "Create paper"} />
       <div>
         <form className="flex w-[50%] flex-col gap-6">
           <TypeOrSelect
@@ -264,9 +264,9 @@ const CreatePaperMain = () => {
             label="Long name"
             value={form.longName}
             onChange={handleChange}
-            placeholder="Eg. G.C.E Advanced Level - 2024 (English)"
             isRequired
             error={errors.longName}
+            info="Eg. G.C.E Advanced Level - 2024 (English)"
           />
           <div className="flex flex-col gap-2">
             <label className="text-sm font-medium">Statistics</label>
@@ -335,7 +335,7 @@ const CreatePaperMain = () => {
           </div>
           <div className="flex gap-2">
             <Button
-              label="Submit"
+              label={id ? "Save" : "Submit"}
               isLoading={loading}
               handleBtn={handleCreatePaper}
             />
