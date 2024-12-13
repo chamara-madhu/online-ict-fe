@@ -50,7 +50,10 @@ const BuyPaperMain = () => {
         return;
       }
 
-      const res = await onlinePayment({ paperId, amount: PRICE_PER_PAPER });
+      const res = await onlinePayment({
+        paperId,
+        amount: PRICE_PER_PAPER * (1 - PROMOTION_RATE),
+      });
 
       await stripe.redirectToCheckout({
         sessionId: res.data.sessionId,
