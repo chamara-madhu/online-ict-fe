@@ -29,7 +29,7 @@ const DashboardMain = () => {
         <preLoading />
       ) : (
         <div className="w-full" data-testid="all-new-applications-main">
-          <p className="mt-4 mb-4 text-3xl font-semibold">Pending</p>
+          <p className="mt-4 mb-4 text-3xl font-semibold">Papers</p>
           <div className="container mx-auto">
             <div className="grid grid-cols-3 gap-4">
               {paperStats?.map((paper, i) => (
