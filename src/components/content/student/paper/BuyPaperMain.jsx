@@ -39,13 +39,15 @@ const BuyPaperMain = () => {
   //   setCartItems(filtered);
   // };
 
-  const handleOnlinePayment = async () => {
+  const handleOnlinePayment = async (e) => {
+    e.preventDefault();
+    alert(pay.VITE_STRIPE_PUBLISHABLE_KEY);
     setLoadingOnline(true);
 
     try {
       const stripe = await loadStripe(pay.VITE_STRIPE_PUBLISHABLE_KEY);
 
-      const res = await onlinePayment({ paperId, amount: 200 });
+      const res = await onlinePayment({ paperId, amount: PRICE_PER_PAPER });
 
       await stripe.redirectToCheckout({
         sessionId: res.data.sessionId,
