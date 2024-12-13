@@ -46,6 +46,10 @@ const BuyPaperMain = () => {
 
     try {
       const stripe = await loadStripe(pay.VITE_STRIPE_PUBLISHABLE_KEY);
+      if (!stripe) {
+        alert("Stripe failed to load.");
+        return;
+      }
 
       const res = await onlinePayment({ paperId, amount: PRICE_PER_PAPER });
 
